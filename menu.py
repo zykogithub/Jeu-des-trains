@@ -1,8 +1,5 @@
-#version 2
-
-
-from module_jeu_des_gares_v2 import*
-from module_jeu_des_lignes_v2 import*
+from module_jeu_des_gares import*
+from module_jeu_des_lignes import*
 
 
 print("Bonjour, bienvenu dans le jeu : IDF sur le bout des doigts \n Vous voulez testez votre connaissance du réseau francilien, alors ce jeu est fait pour vous ! \n")
