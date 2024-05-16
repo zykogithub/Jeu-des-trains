@@ -1,5 +1,5 @@
 from random import*
-from module_toutes_les_gares import* #dans ce module, il y a la variable
+from jeu.module_toutes_les_gares import* #dans ce module, il y a la variable
 #ligne_dico qui stocke toutes les lignes et leurs gares respectives sous forme d'une
 #liste de dictionnaire, chaque clef est le nom d'une ligne, chaque valeur est une
 #liste de chaine de caratère, et chaque chaine est une gare traversé par la ligne
