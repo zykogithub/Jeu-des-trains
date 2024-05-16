@@ -1,5 +1,8 @@
-from module_jeu_des_gares import*
-from module_jeu_des_lignes import*
+#version 2
+
+
+from module_jeu_des_gares_v2 import*
+from module_jeu_des_lignes_v2 import*
 
 
 print("Bonjour, bienvenu dans le jeu : IDF sur le bout des doigts \n Vous voulez testez votre connaissance du réseau francilien, alors ce jeu est fait pour vous ! \n")
@@ -7,27 +10,30 @@ print("Vous pouvez soit à : ",
                 "\n -tapez 1 pour le jeu des gares", 
                 "\n -tapez 2 pour lejeu des lignes ")
                 
-choix=int(input("\n Que choisissez vous ?\n"))
+choixTypeDeJeu=int(input("\n Que choisissez vous ?\n"))
 
 
-
-
-if choix==1:
-    jeu_des_gares_()
-elif choix==2:
-    jeu_des_lignes_()
-
-while(choix!=1 and choix!=2 ):
+while(choixTypeDeJeu!=1 and choixTypeDeJeu!=2):
     print("Désolé mais cette option n'est pas possible ... \n")
-    choix=print("Veuillez choisir soit  : ",
+    print("Veuillez choisir soit  : ",
                         "\n -tapez 1 pour le jeu des gares ",
                         "\n -tapez 2 pour lejeu des lignes ")
-    choix=int(input("\n Que choisissez vous ?\n"))
-    if choix==1:
-        jeu_des_gares_()
-    elif choix==2:
-        jeu_des_lignes_()
-    
-    
+    choixTypeDeJeu=int(input("\n Que choisissez vous ?\n"))
 
-    
+if choixTypeDeJeu==1:
+    print("maintenant, vous pouvez choisir à : \n\t - deviner les lignes de chaque gare en tapant 1",
+           "\n\t -deviner si une gare est bien desservu par la ligne en tapant 2")
+    choixJeu=int(input("\n Que choisissez vous ?\n"))
+    if choixJeu==1:
+        jeu_des_gares_()
+    else :
+        deservi_par_()
+else :
+    print("maintenant, vous pouvez choisir à : \n\t - deviner les lignes de chaque gare en tapant 1",
+           "\n\t -deviner si une gare est bien desservu par la ligne en tapant 2")
+    choixJeu=int(input("\n Que choisissez vous ?\n"))
+    if choixJeu==2:
+        jeu_des_lignes_()
+    else :
+        jeuDesert()
+     

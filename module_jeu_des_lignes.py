@@ -4,8 +4,9 @@ from module_toutes_les_gares import* #dans ce module, il y a la variable
 #liste de dictionnaire, chaque clef est le nom d'une ligne, chaque valeur est une
 #liste de chaine de caratère, et chaque chaine est une gare traversé par la ligne
 from time import*
+import os
 def jeu_des_lignes_():
-    gare_selectionne=randint(0,len(ligne_dico)) #pour générer un entier aléatoirement, entier qui servira à cibler une gare car chaque dico
+    gare_selectionne=randint(0,len(ligne_dico)-1) #pour générer un entier aléatoirement, entier qui servira à cibler une gare car chaque dico
     # de la liste ont pour seul clef le nom de la gare. Donc ce nombre aléatoire renverra nécessairement vers la gare,
     #  qui est la clef du dico
 
@@ -25,7 +26,7 @@ def jeu_des_lignes_():
 
     #debut du jeu :
 
-
+    # fonction affichage début
     print("Bonjour, Bienvenue dans le jeu : devine la ligne ! \n Le jeu est simple :",
           " Nous allons donnez le nom d'une ligne, il faudra donner les gares qu'elle traverse \n  ",
           "Bien, évidement, vous avez seulement 5 minutes pour toutes le donées, alors dépéchez-vous !"
@@ -34,8 +35,8 @@ def jeu_des_lignes_():
     print("Ecrivez explicitement le nom des gares")
 
 
-    #debut de l'algorithme du jeu 
-
+    # fonction algo coeur du jeu 
+        # fonction initialisation
 
     tour=0 #variable utilisé dans la boucle du jeu pour éviter qu'il n'ait trop de réponse rentré par l'utilisateur
     MAXIMUM=50 #nombre maximal de réponse autorisé
@@ -56,32 +57,34 @@ def jeu_des_lignes_():
     # le dico g.ligne_dico
     liste_reponse=[]
     reponse=None
+        # fonction saisi utilisateur
     
     while (reponse!="STOP" and tour<MAXIMUM and temps_ecoule<=DUREE_MAX  ):#and time<2min 
         temps_ecoule = time() - debut
         if reponse!="STOP":
             reponse=input("Ecrivez une nouvelle réponse. \n Tapez STOP pour arrêter de réponse \n")
-            reponse.upper() #normalisation des réponses en majuscule, donc cette ligne sert à mettre en majuscule la réponse rentrée
+            reponse.upper() 
             liste_reponse.append(reponse)
             tour+=1
             print("Vous ne pourrez pas rentrer au dela de", MAXIMUM-tour, "réponses")
 
-
-    del liste_reponse[-1] #étant donné que lorsque l'utilisateeur rentrait stop, cela rentrait dans cette liste, 
+        # fonction supprimer stop
+    if liste_reponse[-1]=='STOP' :
+        del liste_reponse[-1] #étant donné que lorsque l'utilisateeur rentrait stop, cela rentrait dans cette liste, 
     #il a fallu supprimer STOP de la liste de la réponse
-
+        # fonction vérification des donées
     taille_reponse=len(liste_reponse) #sera comparé avece la future taille de la liste de réponse, qui perdra un élément si 
     #l'élément correspond à la liste valeur_reponse
 
-    for i in range (len(liste_reponse)):
-        essaie=liste_reponse[i-1]
-        for j in range (len(valeur_reponse)):
-            if essaie==valeur_reponse[j-1]: #condition qui dit que si un élément de la liste liste_reponse correspond à un élément de la 
+    for i in range (len(liste_reponse)-1):
+        essaie=liste_reponse[i]
+        for j in range (len(valeur_reponse)-1):
+            if essaie==valeur_reponse[j]: #condition qui dit que si un élément de la liste liste_reponse correspond à un élément de la 
                 #liste valeur_reponse, alors supprimer l'élément de la liste liste_reponse 
                 del liste_reponse[i-1]
 
 
-    #jeu de cas
+        # fonction des réponses
 
 
     if temps_ecoule==DUREE_MAX:
@@ -91,77 +94,108 @@ def jeu_des_lignes_():
                               # la taile de la liste liste_reponse avant la boucle ci-dessus 
 
             print("Bravo, vous avez donnez la bonne réponse : \n")
-            for i in range(len(liste_reponse)):
-                print(liste_reponse[i-1])
+            for i in range(len(liste_reponse)-1):
+                print(liste_reponse[i])
 
         elif len(liste_reponse)==taille_reponse:  #à l'inverse, si elle n'a pas changé de taille par rapport à son ancienne taille, alors aucune 
                                                   #des réponses rentrés ne sont bonnes
 
             print("Dommage, vous n'avez pas donnée de bonne réponse...\n Voici la(es) réponse(s) qu'il fallait : \n")
-            for i in range(len(valeur_reponse)):
-                print(valeur_reponse[i-1])
+            for i in range(len(valeur_reponse)-1):
+                print(valeur_reponse[i])
 
 
         else : #dernier cas : la liste ne vaut ni taille_reponse, ni 0. Alors, certains éléments sont bons, mais d'autres mauvais 
 
             print("Bravo, vous avez donnez comme bonne réponse : \n")
-            for i in range(len(liste_reponse)):
-                print(liste_reponse[i-1])
+            for i in range(len(liste_reponse)-1):
+                print(liste_reponse[i])
             print("Cependant, vous avez oublier comme réponse réponse : \n")
-            for i in range(len(valeur_reponse)):
-                print(valeur_reponse[i-1])
-    elif  temps_ecoule<=60:
+            for i in range(len(valeur_reponse)-1):
+                print(valeur_reponse[i])
+    elif  0<temps_ecoule<DUREE_MAX:
         print("Bien joué ! Vous avez réussi à donner tout ce que vous avez pu. \n Voyons ensemble vos réponses : \n" "J'espère que vous avez pas triché")
         if len(liste_reponse)==0 and tour>1 : 
 
             print("Bravo, vous avez donnez la bonne réponse : \n")
-            for i in range(len(liste_reponse)):
-                print(liste_reponse[i-1])
+            for i in range(len(liste_reponse)-1):
+                print(liste_reponse[i])
 
         elif len(liste_reponse)==taille_reponse:  
 
             print("Dommage, vous n'avez pas donnée de bonne réponse...\n Voici la(es) réponse(s) qu'il fallait : \n")
-            for i in range(len(valeur_reponse)):
-                print(valeur_reponse[i-1])
+            for i in range(len(valeur_reponse)-1):
+                print(valeur_reponse[i])
 
 
 
         else : 
 
             print("Bravo, vous avez donnez comme bonne réponse : \n")
-            for i in range(len(liste_reponse)):
-                print(liste_reponse[i-1])
+            for i in range(len(liste_reponse)-1):
+                print(liste_reponse[i])
             print("Cependant, vous avez oublier comme réponse réponse : \n")
-            for i in range(len(valeur_reponse)):
-                print(valeur_reponse[i-1])
-
+            for i in range(len(valeur_reponse)-1):
+                print(valeur_reponse[i])
     else:
         print("Bien joué ! Vous avez réussi à donner tout ce que vous avez pu. \n Voyons ensemble vos réponses : \n")
         if len(liste_reponse)==0 and tour>1 : 
 
             print("Bravo, vous avez donnez la bonne réponse : \n")
-            for i in range(len(liste_reponse)):
-                print(liste_reponse[i-1])
+            for i in range(len(liste_reponse)-1):
+                print(liste_reponse[i])
 
         elif len(liste_reponse)==taille_reponse:  
 
             print("Dommage, vous n'avez pas donnée de bonne réponse...\n Voici la(es) réponse(s) qu'il fallait : \n")
-            for i in range(len(valeur_reponse)):
-                print(valeur_reponse[i-1])
+            for i in range(len(valeur_reponse)-1):
+                print(valeur_reponse[i])
 
 
 
         else : 
 
             print("Bravo, vous avez donnez comme bonne réponse : \n")
-            for i in range(len(liste_reponse)):
-                print(liste_reponse[i-1])
+            for i in range(len(liste_reponse)-1):
+                print(liste_reponse[i])
             print("Cependant, vous avez oublier comme réponse réponse : \n")
-            for i in range(len(valeur_reponse)):
-                print(valeur_reponse[i-1])
-
-
-"""Remarques :
-    -faire un mode avec 5min de temps et un autre avec moins de temps 
-    -calculez le taux de bonnes réponses donées
-    -sauvegarder les meilleurs taux de réponse comme record """
+            for i in range(len(valeur_reponse)-1):
+                print(valeur_reponse[i])
+def jeuDesert():
+    # affichage du début
+    print("Vous voici dans le jeu : desert \n Le jeu est simple : \n :\
+        Vous devez devinez si une ligne posséde bien la gare.",
+        "Par exemple s'il est demandé est que la ligne 6 désert bien la gare Louis-Jean",
+        " vous devez répondre oui ou non \n \
+        Vous aurez 10 questions et à la fin, une note sur 10 vous sera donné. \n \
+        Pour chaque question, vous n'aurez que 30 secondes pour répondre. \n",
+        "Bonne chance !!")
+    # fonction pour stocker toutes les gares et toutes les lignes dans des liste
+    lignesIleDeFrance = []
+    for i in range(len(ligne_dico)-1):
+        for ligne in ligne_dico[i].values():
+            for j in range(len(ligne)-1):
+                if ligne[j] not in lignesIleDeFrance:
+                    lignesIleDeFrance.append(ligne[j])
+    garesIleDeFrance = []
+    for i in range(len(ligne_dico)-1):
+        for gare in ligne_dico[i].keys():
+            if gare not in garesIleDeFrance:
+                garesIleDeFrance.append(gare[j])
+    
+'''
+algo du jeu :
+    initialiser une liste de de dico avec comme clef 'question_f{i}' gare,valeur,valeur de vérité valeur de taille 10
+    prendre une gare et une ligne 
+    stocker la valeur de vérité de si la gare est déservi par la ligne
+        s'il tape oui : attribuer à la valeur utilisateur vrai
+        s'il répond non : attribuer à la valeur utilisateur faux
+    vérifier l'égalité entre les deux :
+        s'il y a égalité : 
+            stocké la réponse dans la liste bonne réponse qui contient un dico avec comme clef un string nommé question_f{i} et comme valeur couple avec la gare et la ligne
+            ajouté deux point au joeur
+        sinon :
+            stocké la réponse dans la liste mauvaise réponse qui contient un dico avec comme clef un string nommé question_f{i} et comme valeur couple avec la gare et la ligne proposé
+            afficher la valeur de vérité de la réponse sous forme : et non c'était faux
+    
+'''
