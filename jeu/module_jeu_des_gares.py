@@ -1,11 +1,23 @@
 from random import*
-from module_toutes_les_gares import* #dans ce module, il y a la variable
-#ligne_dico qui stocke toutes les lignes et leurs gares respectives sous forme d'une
-#liste de dictionnaire, chaque clef est le nom d'une ligne, chaque valeur est une
-#liste de chaine de caratère, et chaque chaine est une gare traversé par la ligne
+from jeu.module_toutes_les_gares import* #dans ce module, il y a la variable
 from time import*
-def jeu_des_lignes_():
-    gare_selectionne=randint(0,len(ligne_dico)) #pour générer un entier aléatoirement, entier qui servira à cibler une gare car chaque dico
+#gare_dico qui stocke toutes les gares et leurs lignes respectives sous forme d'une
+#liste de dictionnaire, chaque clef est le nom d'une gare, chaque valeur est une
+#liste de chaine de caratère, et chaque chaine est une ligne qui passe par la gare
+  
+""" algorithme du jeu
+        1 tant que l'utilisateur n'a pas dit stop ou a mis le nombre maximum d'entrée, ajouter une valeur dans la liste de répons
+        2 parcourir la liste rattachée à la gare et comparer chaque élément de la liste réponse à celle de la gare  
+        3 S'il y a une correspondance, retiré l'élément de la liste réponse
+        4 ensuite, voici les résultats que le jeu peut donner :
+            1 Si la liste réponse est vide : bonne réponse
+            2 Si la liste réponse n'a pas changé de taille : mauvaise réponse
+            3 Si la liste a changé de taille mais n'est pas vide : afficher les éléments de la liste de la gare pour dire qu'ils sont 
+            en bonne réponse 
+            Puis afficher les éléments restant pour dire qu'ils sont en mauvaise réponse
+        """
+def jeu_des_gares_():
+    gare_selectionne=randint(0,len(gare_dico)) #pour générer un entier aléatoirement, entier qui servira à cibler une gare car chaque dico
     # de la liste ont pour seul clef le nom de la gare. Donc ce nombre aléatoire renverra nécessairement vers la gare,
     #  qui est la clef du dico
 
@@ -14,10 +26,9 @@ def jeu_des_lignes_():
 
     cle_jeu=None
     valeur_reponse=[]  
-    for cle,valeur in ligne_dico[gare_selectionne].items():
+    for cle,valeur in gare_dico[gare_selectionne].items():
         cle_jeu=cle
         valeur_reponse=valeur
-
 
 
     # variable pour connaitre le nombre de réponse à saisir 
@@ -26,22 +37,22 @@ def jeu_des_lignes_():
     #debut du jeu :
 
 
-    print("Bonjour, Bienvenue dans le jeu : devine la ligne ! \n Le jeu est simple :",
-          " Nous allons donnez le nom d'une ligne, il faudra donner les gares qu'elle traverse \n  ",
-          "Bien, évidement, vous avez seulement 5 minutes pour toutes le donées, alors dépéchez-vous !"
+    print("Bonjour, Bienvenue dans le jeu : devine la gare ! \n Le jeu est simple :",
+          " Nous allons donnez un nom de gare, il faudra donner la(es) ligne(s) qui la traverse(nt) \n  ",
+          "Bien, évidement, vous avez seulement 5 minutes pour toutes le donées, alors dépéchez-vous !",
           "Bonne chance !")
-    print("Quelles  sont les gares que  traversent la ligne du : ",cle_jeu," ?")
-    print("Ecrivez explicitement le nom des gares")
+    print("Quelle(s) est (sont) les lignes traversée(s) à la gare de : ",cle_jeu," ?")
+    print("Ecrivez sous la forme : RER A ou RER B, etc")
 
 
     #debut de l'algorithme du jeu 
 
 
     tour=0 #variable utilisé dans la boucle du jeu pour éviter qu'il n'ait trop de réponse rentré par l'utilisateur
-    MAXIMUM=50 #nombre maximal de réponse autorisé
-    DUREE_MAX = 300  # 5 minutes de temps de jeu maximum
+    MAXIMUM=10 #nombre maximal de réponse autorisé
+    DUREE_MAX = 60  # 5 minutes de temps de jeu maximum
     debut = time()
-    temps_ecoule = time() - debut #pour calculer l'écoulement du temps
+    temps_ecoule = time() - debut
     # print("Vous ne pourrez pas rentrer au dela de", 5-tour, "réponses")
     # reponse=input("Ecrivez une réponse. \n Tapez STOP pour arrêter de réponse")
     # reponse.upper() #normalisation des réponses en majuscule, donc cette ligne sert à mettre en majuscule la réponse rentrée
@@ -53,12 +64,11 @@ def jeu_des_lignes_():
     print("Vous ne pourrez pas rentrer au dela de", MAXIMUM-tour, "réponses")
 
     #répétition du jeu jusqu'à ce que le joueur arrête de jouer ou qu'on n'ait atteint le nombre maximum de lignes enregistré dans 
-    # le dico g.ligne_dico
+    # le dico g.gare_dico
     liste_reponse=[]
     reponse=None
-    
-    while (reponse!="STOP" and tour<MAXIMUM and temps_ecoule<=DUREE_MAX  ):#and time<2min 
-        temps_ecoule = time() - debut
+    while (reponse!="STOP" and tour<MAXIMUM and temps_ecoule<=DUREE_MAX  ): 
+        temps_ecoule = time() - debut 
         if reponse!="STOP":
             reponse=input("Ecrivez une nouvelle réponse. \n Tapez STOP pour arrêter de réponse \n")
             reponse.upper() #normalisation des réponses en majuscule, donc cette ligne sert à mettre en majuscule la réponse rentrée
@@ -82,6 +92,7 @@ def jeu_des_lignes_():
 
 
     #jeu de cas
+
 
 
     if temps_ecoule==DUREE_MAX:
@@ -160,8 +171,19 @@ def jeu_des_lignes_():
             for i in range(len(valeur_reponse)):
                 print(valeur_reponse[i-1])
 
+""" nota bene :
+        remarques :
+            - testez si la réponse rentrée est incorrect 
+            - mettre une boucle si, si l'utilisateur ne rentre aucune réponse. Cependant c'est un jeu, donc on peut supposer que
+            le joueur rentrera au moins 1 réponse. De plus, toute gare est déservie par au moins une ligne. Mais s'il ne sait pas
+            la boucle est à prévoir
+            - mettre une boucle si, si l'utilateur a rentré trop de réponse , on lui fera remarqué et on lui demandera quels réponses
+            il souhaite garder 
+            -implémenter une boucle tant que pour éviter les réponses non valables
+            """
 
-"""Remarques :
-    -faire un mode avec 5min de temps et un autre avec moins de temps 
-    -calculez le taux de bonnes réponses donées
-    -sauvegarder les meilleurs taux de réponse comme record """
+
+    
+
+
+	
